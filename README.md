@@ -5,7 +5,7 @@
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
   <a href="https://twitter.com/maciej\_wiatr" target="_blank">
-    <img alt="Twitter: maciej\_wiatr" src="https://img.shields.io/twitter/follow/maciej\_wiatr.svg?style=social" />
+    <img alt="Twitter: maciej_wiatr" src="https://img.shields.io/twitter/follow/maciej\_wiatr.svg?style=social" />
   </a>
 </p>
 
@@ -26,7 +26,7 @@ yarn run start
 ## Author
 
 * Website: mwiatr.live
-* Twitter: [@maciej\_wiatr](https://twitter.com/maciej\_wiatr)
+* Twitter: [@maciej_wiatr](https://twitter.com/maciej\_wiatr)
 * Github: [@MaciejWiatr](https://github.com/MaciejWiatr)
 
 ## Show your support
