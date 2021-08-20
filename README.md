@@ -17,11 +17,25 @@
 yarn install
 ```
 
-## Usage
+## CLI Usage
+
+Simplest way to use notion-export is npx
 
 ```sh
-yarn run start
+npx notion-export
 ```
+It will run series of prompts that will guide you through the process of exporting your notion page
+
+## Programmatic usage
+```js
+import { exportPage } from "notion-export/core"
+
+exportPage(<page_url>, <destination_path>, <notion_v2_token>, <exportType>)
+```
+Supported export types are:
+- markdown
+- pdf
+- html
 
 ## Author
 
