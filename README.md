@@ -39,7 +39,6 @@ Supported export types are:
 
 ## Author
 
-* Website: mwiatr.live
 * Twitter: [@maciej_wiatr](https://twitter.com/maciej\_wiatr)
 * Github: [@MaciejWiatr](https://github.com/MaciejWiatr)
 
