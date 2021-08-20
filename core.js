@@ -4,15 +4,26 @@ const { promisify } = require("util");
 const fs = require("fs");
 const AdmZip = require("adm-zip");
 const { LogManager } = require("./cli");
-
 const finished = promisify(stream.finished);
+const path = require("path");
+
+const tmpExportDir = `${process.cwd()}/notion-export-tmp`;
+
+const cleanupTmp = () => {
+	if (fs.existsSync(tmpExportDir))
+		fs.rmdirSync(tmpExportDir, { recursive: true });
+};
 
 const unzipOutput = (destination) => {
-	const zip = new AdmZip("./download/out.zip");
+	const zip = new AdmZip(`${tmpExportDir}/out.zip`);
+	if (!fs.existsSync(destination)) fs.mkdirSync(destination);
 	zip.extractAllTo(destination, true);
 };
 
 async function downloadFile(fileUrl, outputLocationPath) {
+	if (!fs.existsSync(path.dirname(outputLocationPath))) {
+		fs.mkdirSync(path.dirname(outputLocationPath));
+	}
 	const writer = fs.createWriteStream(outputLocationPath);
 	return axios({
 		method: "get",
@@ -68,10 +79,16 @@ const waitUntilExportDone = (taskId, token) =>
 	new Promise((resolve) => {
 		let interval = setInterval(async () => {
 			const exportResponse = await getExportStatus(taskId, token);
-			LogManager.logExportProgress(
-				exportResponse.status.type,
-				exportResponse.status.pagesExported
-			);
+			try {
+				LogManager.logExportProgress(
+					exportResponse.status.type,
+					exportResponse.status.pagesExported
+				);
+			} catch {
+				console.log(
+					"Something went wrong while logging download progress"
+				);
+			}
 			if (exportResponse.status.type == "complete") {
 				clearInterval(interval);
 				return resolve(exportResponse.status.exportURL);
@@ -79,7 +96,7 @@ const waitUntilExportDone = (taskId, token) =>
 		}, 1500);
 	});
 
-const enqueueExport = async (pageId, token) =>
+const enqueueExport = async (pageId, token, exportType) =>
 	axios.post(
 		"https://www.notion.so/api/v3/enqueueTask",
 		{
@@ -89,7 +106,7 @@ const enqueueExport = async (pageId, token) =>
 					blockId: pageId,
 					recursive: true,
 					exportOptions: {
-						exportType: "markdown",
+						exportType: exportType,
 						timeZone: "Europe/Warsaw",
 						pdfFormat: "Letter",
 						locale: "en",
@@ -105,13 +122,14 @@ const enqueueExport = async (pageId, token) =>
 		}
 	);
 
-const exportPage = async (pageId, destination, token) => {
+const exportPage = async (pageId, destination, token, exportType) => {
 	pageId = parseBlockIdFromURL(pageId);
-	const { data } = await enqueueExport(pageId, token);
+	const { data } = await enqueueExport(pageId, token, exportType);
 	const resp = await waitUntilExportDone(data.taskId, token);
 	LogManager.logDownloadSuccess(resp);
-	await downloadFile(resp, "./download/out.zip");
+	await downloadFile(resp, `${tmpExportDir}/out.zip`);
 	unzipOutput(destination);
+	cleanupTmp();
 };
 
 module.exports = {

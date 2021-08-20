@@ -1,21 +1,20 @@
 {
-  "name": "notion-export",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "bin": {
-    "notion-export": "node ./index.js"
-  },
-  "dependencies": {
-    "adm-zip": "^0.5.5",
-    "axios": "^0.21.1",
-    "chalk": "^4.1.2",
-    "esm": "^3.2.25",
-    "figlet": "^1.5.2",
-    "log-update": "^4.0.0",
-    "prompts": "^2.4.1"
-  },
-  "scripts": {
-    "start": "node -r esm index.js"
-  }
+	"name": "notion-export",
+	"version": "1.0.0",
+	"license": "MIT",
+	"bin": {
+		"notion-export": "./index.js"
+	},
+	"dependencies": {
+		"adm-zip": "^0.5.5",
+		"axios": "^0.21.1",
+		"chalk": "^4.1.2",
+		"esm": "^3.2.25",
+		"figlet": "^1.5.2",
+		"log-update": "^4.0.0",
+		"prompts": "^2.4.1"
+	},
+	"scripts": {
+		"start": "node -r esm index.js"
+	}
 }

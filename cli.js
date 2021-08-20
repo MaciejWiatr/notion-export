@@ -17,7 +17,7 @@ const displayHeader = () =>
 	});
 
 const collectUserData = async () => {
-	const { token, pageURL, outputDir } = await prompts([
+	const { token, pageURL, outputDir, exportType } = await prompts([
 		{
 			type: "text",
 			name: "token",
@@ -33,10 +33,21 @@ const collectUserData = async () => {
 			name: "outputDir",
 			message: "Output directory",
 		},
+		{
+			type: "select",
+			name: "exportType",
+			message: "Select export type",
+			choices: [
+				{ title: "markdown", value: "markdown" },
+				{ title: "PDF", value: "pdf" },
+				{ title: "HTML", value: "html" },
+			],
+			initial: 1,
+		},
 	]);
 	LogManager.loggingEnabled = true;
 
-	return { token, pageURL, outputDir };
+	return { token, pageURL, outputDir, exportType };
 };
 
 class LogManager {
