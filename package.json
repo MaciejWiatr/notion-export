@@ -1,7 +1,12 @@
 {
 	"name": "notion-export",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"license": "MIT",
+	"homepage": "https://github.com/MaciejWiatr/notion-export",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/MaciejWiatr/notion-export.git"
+	},
 	"bin": {
 		"notion-export": "./index.js"
 	},
